@@ -1,0 +1,61 @@
+/* Estilos para la barra de navegación */
+.navbar {
+    background-color: #333;
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 5%;
+  }
+  
+  .navbar a.navbar-brand {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .navbar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .navbar ul li {
+    display: inline;
+  }
+  
+  .navbar ul li a {
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .navbar ul li a:hover, .navbar ul li a.active {
+    background-color: #555;
+    border-radius: 5px;
+  }
+  
+  .navbar-toggler-icon {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #ccc;
+    cursor: pointer;
+  }
+  
+  /* Ajuste para dispositivos móviles */
+  @media (max-width: 768px) {
+    .navbar ul {
+      display: block;
+      width: 100%;
+    }
+  
+    .navbar ul li {
+      display: block;
+      text-align: center;
+    }
+  
+    .navbar-toggler-icon {
+      display: none;
+    }
+  }
+  
