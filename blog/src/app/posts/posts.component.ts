@@ -55,13 +55,13 @@ export class PostsComponent implements OnInit {
   addComment(postId: number): void {
     const newComment: Comment = {
       id: 0,
-      postId: postId,
+      post_id: postId, 
       name: this.newCommentName,
       email: this.newCommentEmail,
       content: this.newCommentContent,
       createdAt: new Date()
     };
-
+  
     this.postService.addCommentToPost(postId, newComment).subscribe(comment => {
       const post = this.posts.find(post => post.id === postId);
       if (post) {
@@ -73,6 +73,7 @@ export class PostsComponent implements OnInit {
       this.newCommentContent = '';
     });
   }
+  
 
   toggleComments(post: Post): void {
     post.showComments = !post.showComments;
