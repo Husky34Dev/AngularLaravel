@@ -4,3 +4,70 @@
   .botones button {
     margin: 5px; 
   }
+  /* Estilos para la sección de comentarios */
+.comments {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+/* Estilos para el título de comentarios */
+.comments h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Estilos para los comentarios individuales */
+.comment {
+  margin-bottom: 10px;
+}
+
+/* Estilos para el nombre del autor del comentario */
+.comment .author {
+  font-weight: bold;
+}
+
+/* Estilos para el contenido del comentario */
+.comment .content {
+  margin-top: 5px;
+  color: #666;
+}
+
+/* Estilos para el formulario de comentarios */
+.comment-form {
+  margin-top: 20px;
+}
+
+/* Estilos para las etiquetas del formulario */
+.comment-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Estilos para los campos de entrada del formulario */
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form textarea {
+  width: calc(100% - 20px); /* Tomar el ancho completo menos el padding */
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos para el botón de enviar del formulario */
+.comment-form button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Estilos para el botón de enviar del formulario al pasar el cursor sobre él */
+.comment-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}

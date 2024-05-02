@@ -8,7 +8,8 @@ import { PostsComponent } from './posts/posts.component';
 import { PostComponent } from './post/post.component';
 import { PostEditorComponent } from './post-editor/post-editor.component';
 import { NavComponent } from './nav/nav.component';
-import { FormsModule } from '@angular/forms'; // Importa FormsModule aquí
+import { FormsModule } from '@angular/forms';
+import { CommentsComponent } from './comments/comments.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { FormsModule } from '@angular/forms'; // Importa FormsModule aquí
     PostComponent,
     PostEditorComponent,
     NavComponent,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,
