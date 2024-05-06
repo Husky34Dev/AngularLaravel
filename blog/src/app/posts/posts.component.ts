@@ -13,6 +13,10 @@ import { PostService } from '../services/post.service';
 export class PostsComponent implements OnInit {
   posts: Post[] = [];
   userAuthenticated: boolean = false;
+  // Definir propiedades para los nuevos comentarios
+  newCommentName: string = '';
+  newCommentEmail: string = '';
+  newCommentContent: string = '';
 
   constructor(
     private authService: AuthService,
@@ -28,7 +32,6 @@ export class PostsComponent implements OnInit {
       }
     });
   }
-
   loadPosts(): void {
     this.postService.getPosts().subscribe(posts => {
       this.posts = posts;

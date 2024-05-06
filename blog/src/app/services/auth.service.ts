@@ -9,7 +9,7 @@ export class AuthService {
   private apiUrl = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) {}
-
+  
   // Método para iniciar sesión y obtener el token
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials);

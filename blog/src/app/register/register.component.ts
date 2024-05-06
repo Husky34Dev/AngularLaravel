@@ -16,25 +16,20 @@ export class RegisterComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
-    // Verificar si las contraseñas coinciden
-    console.log('Contraseña:', this.password);
-    console.log('Confirmar contraseña:', this.password_confirmation); // Cambiar confirmPassword a password_confirmation
     if (this.password !== this.password_confirmation) {
       console.error('Las contraseñas no coinciden');
-      return; // Detener el registro si las contraseñas no coinciden
+      return;
     }
   
-    // Realizar el registro si las contraseñas coinciden
-    // Asegúrate de enviar el campo password_confirmation en la solicitud
     this.authService.register({ 
       name: this.name, 
       email: this.email, 
       password: this.password, 
-      password_confirmation: this.password_confirmation // Enviar password_confirmation
+      password_confirmation: this.password_confirmation 
     }).subscribe(
       response => {
         console.log('Usuario registrado exitosamente', response);
-        this.router.navigate(['/dashboard']); // Redirigir a una vista protegida después del registro exitoso
+        this.router.navigate(['/']); // Redirige al componente de posts después de registrarse
       },
       error => {
         console.error('Error en registro', error);

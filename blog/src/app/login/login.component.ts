@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -7,19 +7,26 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   email: string = '';
   password: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  ngOnInit(): void {
+    // Verificar si el usuario ya está autenticado al cargar el componente
+    this.authService.isAuthenticated().subscribe(authenticated => {
+      if (authenticated) {
+        this.router.navigate(['/']); // Redirige al componente de posts si el usuario está autenticado
+      }
+    });
+  }
+
   login() {
     this.authService.login({ email: this.email, password: this.password }).subscribe(
       response => {
-        localStorage.setItem('token', response.token); // Guarda el token en localStorage
-        console.log('inicio exitoso');
-        this.router.navigate(['/dashboard']); // Redirige a una vista protegida
-
+        localStorage.setItem('token', response.token);
+        this.router.navigate(['/']); // Redirige al componente de posts después de iniciar sesión
       },
       error => {
         console.error('Error en inicio de sesión', error);

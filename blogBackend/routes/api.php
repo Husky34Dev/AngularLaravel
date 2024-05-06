@@ -28,6 +28,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
+
 // En routes/api.php
 Route::post('test-route', function () {
     return response()->json(['message' => 'Test route']);

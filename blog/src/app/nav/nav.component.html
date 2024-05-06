@@ -8,13 +8,13 @@
       <a class="nav-link" routerLink="/create" routerLinkActive="active">Crear Post</a>
     </li>
   </ul>
-  <!-- Botones de inicio de sesión y registro -->
+  <!-- Botones de inicio de sesión, registro y cierre de sesión -->
   <ul class="navbar-nav">
     <li class="nav-item">
-      <a class="nav-link" routerLink="/login">Iniciar sesión</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/register">Registrarse</a>
+      <a *ngIf="!userAuthenticated" class="nav-link" routerLink="/login">Iniciar sesión</a>
+      <a *ngIf="!userAuthenticated" class="nav-link" routerLink="/register">Registrarse</a>
+      <a *ngIf="userAuthenticated" class="nav-link" (click)="logout()">Cerrar sesión</a>
     </li>
   </ul>
+  
 </nav>
