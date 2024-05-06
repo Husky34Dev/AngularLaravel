@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import { Post } from '../models/post.model';
-import { Comment } from '../models/comment.model'; 
+import { Comment } from '../models/comment.model';
 import { PostService } from '../services/post.service';
 
 @Component({
@@ -11,14 +12,21 @@ import { PostService } from '../services/post.service';
 })
 export class PostsComponent implements OnInit {
   posts: Post[] = [];
-  newCommentName: string = '';
-  newCommentEmail: string = '';
-  newCommentContent: string = '';
-  
-  constructor(private postService: PostService, private router: Router) { }
+  userAuthenticated: boolean = false;
+
+  constructor(
+    private authService: AuthService,
+    private postService: PostService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.loadPosts();
+    this.authService.isAuthenticated().subscribe((authenticated: boolean) => { // Especificar el tipo booleano aquí
+      this.userAuthenticated = authenticated;
+      if (authenticated) {
+        this.loadPosts();
+      }
+    });
   }
 
   loadPosts(): void {
@@ -36,6 +44,10 @@ export class PostsComponent implements OnInit {
     }
   }
 
+  editPost(id: number): void {
+    this.router.navigate(['/edit', id]);
+  }
+
   deletePost(id: number): void {
     if (confirm('¿Estás seguro de que quieres eliminar este post?')) {
       this.postService.deletePost(id).subscribe(() => {
@@ -44,36 +56,9 @@ export class PostsComponent implements OnInit {
     }
   }
 
-  editPost(id: number): void {
-    this.router.navigate(['/edit', id]);
-  }
-
-  back():void {
-    this.router.navigate(['']);
-  }
-
   addComment(postId: number): void {
-    const newComment: Comment = {
-      id: 0,
-      post_id: postId, 
-      name: this.newCommentName,
-      email: this.newCommentEmail,
-      content: this.newCommentContent,
-      createdAt: new Date()
-    };
-  
-    this.postService.addCommentToPost(postId, newComment).subscribe(comment => {
-      const post = this.posts.find(post => post.id === postId);
-      if (post) {
-        post.comments.push(comment);
-      }
-      
-      this.newCommentName = '';
-      this.newCommentEmail = '';
-      this.newCommentContent = '';
-    });
+    // Implementar la lógica para agregar comentarios
   }
-  
 
   toggleComments(post: Post): void {
     post.showComments = !post.showComments;
