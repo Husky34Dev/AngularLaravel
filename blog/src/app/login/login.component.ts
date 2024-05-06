@@ -26,6 +26,9 @@ export class LoginComponent implements OnInit {
     this.authService.login({ email: this.email, password: this.password }).subscribe(
       response => {
         localStorage.setItem('token', response.token);
+        // Forzar la actualización del componente
+        this.ngOnInit();  
+        // o this.updateAuthenticationStatus();
         this.router.navigate(['/']); // Redirige al componente de posts después de iniciar sesión
       },
       error => {
@@ -33,4 +36,5 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+  
 }
