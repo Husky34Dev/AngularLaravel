@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Post } from '../models/post.model';
 import { PostService } from '../services/post.service';
+import { AuthService } from '../services/auth.service'; // Importa AuthService
 
 @Component({
   selector: 'app-post-editor',
@@ -12,11 +13,13 @@ import { PostService } from '../services/post.service';
 export class PostEditorComponent implements OnInit {
   postForm!: FormGroup;
   postId: number | undefined;
+  userAuthenticated: boolean = false; // Variable para almacenar el estado de autenticación
 
   constructor(
     private postService: PostService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService // Inyecta AuthService
   ) { }
 
   ngOnInit() {
@@ -27,6 +30,11 @@ export class PostEditorComponent implements OnInit {
         this.postId = +id;
         this.loadPost(this.postId);
       }
+    });
+
+    // Verifica el estado de autenticación al inicializar el componente
+    this.authService.isAuthenticated().subscribe(authenticated => {
+      this.userAuthenticated = authenticated;
     });
   }
 
@@ -45,7 +53,7 @@ export class PostEditorComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.postForm.valid) {
+    if (this.userAuthenticated && this.postForm.valid) {
       const postData = this.postForm.value;
       if (this.postId) {
         // Si hay un ID de post, significa que estamos editando
@@ -61,8 +69,8 @@ export class PostEditorComponent implements OnInit {
       }
     }
   }
-  back():void{
+
+  back(): void {
     this.router.navigate(['']);
   }
-
 }

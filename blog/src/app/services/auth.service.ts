@@ -1,33 +1,44 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs'; // Importa 'of' desde 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api';
+  private isAuthenticatedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {}
-  
-  // Método para iniciar sesión y obtener el token
+
   login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials);
+    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+      tap(response => {
+        localStorage.setItem('token', response.token);
+        this.isAuthenticatedSubject.next(true); // Actualiza el estado de autenticación
+      }),
+      catchError(error => {
+        this.isAuthenticatedSubject.next(false); // Actualiza el estado de autenticación en caso de error
+        return of(error);
+      })
+    );
   }
 
-  // Método para cerrar sesión
   logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {});
+    localStorage.removeItem('token');
+    this.isAuthenticatedSubject.next(false); // Actualiza el estado de autenticación
+    return this.http.post<any>(`${this.apiUrl}/logout`, {});
   }
 
-  // Método para verificar si el usuario está autenticado
   isAuthenticated(): Observable<boolean> {
     const token = localStorage.getItem('token');
-    return of(!!token); // Convertir a booleano y envolver en un observable
+    const isAuthenticated = !!token;
+    this.isAuthenticatedSubject.next(isAuthenticated); // Actualiza el estado de autenticación
+    return this.isAuthenticatedSubject.asObservable();
   }
 
-  // Método para registrar un nuevo usuario
   register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
+    return this.http.post<any>(`${this.apiUrl}/register`, user);
   }
 }

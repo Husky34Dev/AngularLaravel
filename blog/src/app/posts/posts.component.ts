@@ -13,7 +13,6 @@ import { PostService } from '../services/post.service';
 export class PostsComponent implements OnInit {
   posts: Post[] = [];
   userAuthenticated: boolean = false;
-  // Definir propiedades para los nuevos comentarios
   newCommentName: string = '';
   newCommentEmail: string = '';
   newCommentContent: string = '';
@@ -25,13 +24,14 @@ export class PostsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authService.isAuthenticated().subscribe((authenticated: boolean) => { // Especificar el tipo booleano aquí
+    this.authService.isAuthenticated().subscribe((authenticated: boolean) => {
       this.userAuthenticated = authenticated;
       if (authenticated) {
         this.loadPosts();
       }
     });
   }
+
   loadPosts(): void {
     this.postService.getPosts().subscribe(posts => {
       this.posts = posts;
@@ -60,7 +60,28 @@ export class PostsComponent implements OnInit {
   }
 
   addComment(postId: number): void {
-    // Implementar la lógica para agregar comentarios
+    const newComment: Comment = {
+      id: 0, // El id se generará en el servidor, por lo que aquí lo dejamos como cero
+      post_id: postId,
+      name: this.newCommentName,
+      email: this.newCommentEmail,
+      content: this.newCommentContent,
+      createdAt: new Date() // Se puede ajustar según la lógica del servidor
+    };
+
+    this.postService.addCommentToPost(postId, newComment).subscribe((comment: Comment) => {
+      const post = this.posts.find(post => post.id === postId);
+      if (post) {
+        if (!post.comments) {
+          post.comments = [];
+        }
+        post.comments.push(comment);
+      }
+
+      this.newCommentName = '';
+      this.newCommentEmail = '';
+      this.newCommentContent = '';
+    });
   }
 
   toggleComments(post: Post): void {

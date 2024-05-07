@@ -13,7 +13,6 @@ export class NavComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // Verificar si el usuario está autenticado al cargar el componente
     this.updateAuthenticationStatus();
   }
 
@@ -22,7 +21,7 @@ export class NavComponent implements OnInit {
       response => {
         localStorage.removeItem('token');
         this.updateAuthenticationStatus();
-        this.router.navigate(['/login']); // Redirige al componente de inicio de sesión después de cerrar sesión
+        this.router.navigate(['/login']);
       },
       error => {
         console.error('Error al cerrar sesión', error);
@@ -30,7 +29,6 @@ export class NavComponent implements OnInit {
     );
   }
 
-  // Método para actualizar el estado de autenticación
   private updateAuthenticationStatus(): void {
     this.authService.isAuthenticated().subscribe(authenticated => {
       this.userAuthenticated = authenticated;

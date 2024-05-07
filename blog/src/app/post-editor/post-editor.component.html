@@ -1,4 +1,4 @@
-<form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+<form *ngIf="userAuthenticated" [formGroup]="postForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label for="title">Título</label>
     <input type="text" id="title" class="form-control" formControlName="title">
@@ -16,5 +16,8 @@
 
   <button type="submit" class="btn btn-primary" [disabled]="!postForm.valid">Guardar Post</button>
   <button (click)="back()">Volver</button>
-
 </form>
+
+<div *ngIf="!userAuthenticated" class="alert alert-danger" role="alert">
+  <p>Debes iniciar sesión para crear un Post. Haz clic <a [routerLink]="['/login']">aquí</a> para iniciar sesión.</p>
+</div>
