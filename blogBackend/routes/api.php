@@ -2,6 +2,8 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+
 
 //POSTS
 Route::get('/posts', [PostController::class, 'index']);
@@ -34,6 +36,17 @@ Route::middleware(['auth:api'])->group(function () {
 Route::post('test-route', function () {
     return response()->json(['message' => 'Test route']);
 });
+
+//USUARIOS
+
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/names', [UserController::class, 'getName']);
+Route::get('/users/emails', [UserController::class, 'getEmail']);
+Route::get('/users/{id}', [UserController::class, 'show']);
+Route::put('/users/{id}', [UserController::class, 'update']);
+
+
+
 
 
 
