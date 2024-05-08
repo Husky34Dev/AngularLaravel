@@ -37,6 +37,7 @@ export class AuthService {
     this.isAuthenticatedSubject.next(isAuthenticated); // Actualiza el estado de autenticación
     return this.isAuthenticatedSubject.asObservable();
   }
+  
 
   register(user: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, user);

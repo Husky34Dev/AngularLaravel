@@ -42,7 +42,7 @@ export class PostEditorComponent implements OnInit {
     this.postForm = new FormGroup({
       title: new FormControl('', Validators.required),
       content: new FormControl('', Validators.required),
-      author: new FormControl('', Validators.required)
+      author: new FormControl('', Validators.required) // Se actualizará con el nombre del usuario autenticado
     });
   }
 
@@ -53,18 +53,18 @@ export class PostEditorComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.userAuthenticated && this.postForm.valid) {
+    if (this.postForm.valid) {
       const postData = this.postForm.value;
-      if (this.postId) {
-        // Si hay un ID de post, significa que estamos editando
-        this.postService.updatePost(this.postId, postData).subscribe(() => {
-          this.router.navigate(['/']); // Redirigir de vuelta a la lista de posts después de editar
-        });
-      } else {
+      if (!this.postId) {
         // Si no hay un ID de post, significa que estamos creando uno nuevo
         postData.datePosted = new Date();
         this.postService.addPost(postData).subscribe(() => {
           this.router.navigate(['/']); // Redirigir de vuelta a la lista de posts después de crear
+        });
+      } else {
+        // Si hay un ID de post, significa que estamos editando
+        this.postService.updatePost(this.postId, postData).subscribe(() => {
+          this.router.navigate(['/']); // Redirigir de vuelta a la lista de posts después de editar
         });
       }
     }
